@@ -11,7 +11,7 @@ def on_ui_tabs():
             with gr.TabItem("List"):
                 input_dir = gr.Textbox(value=project.default_input_dir(), label="Input directory")
                 voice_ext = gr.Textbox(value='wav', label="Voice ext")
-                image_ext = gr.Textbox(value='webp', label="Image ext")
+                image_ext = gr.Textbox(value='png', label="Image ext")
 
                 reload_btn = gr.Button("Reload")
                 table_html = gr.HTML()
