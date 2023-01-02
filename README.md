@@ -1,13 +1,13 @@
 # sd_gimai
 Game Talk Scenes Builder
 
-- イラストと音声をあわせた作品をつくるためのツールです。
+- イラストとセリフと音声をあわせた作品をつくるためのツールです。
 - 義妹です。
 
 # 前提
 
-- JSONファイルの手編集をしなくても作品が作れます
-  - VSCodeのインストールは必要ありません
+- イラスト、音声、セリフはそれぞれのソフトで作成する必要があります
+  - VSCodeのインストールやJSONファイルの手編集は必須でなくなります
 - MaiNovelをエンジン部のみ内蔵しています
   - https://github.com/Zuntan03/MaiNovel
   - build後のmainovel.jsonを利用することでMaiNovel本来の使い方も出来るはず
@@ -15,10 +15,6 @@ Game Talk Scenes Builder
   - https://coeiroink.com/
   - https://github.com/CjangCjengh/MoeGoe
   - https://huggingface.co/spaces/skytnt/moe-tts
-- ゲームは作れません
-  - 選択肢や条件分岐など最低限のゲーム性の実装もないので
-  - そもそもゲーム性が必要かどうかというのが悩みどころ
-- sd_gimaiではセリフ以外の文字表現は一切できません
 
 # 制作の流れ
 
@@ -102,6 +98,10 @@ Buildされるjsonに合体されます。
 
 # 制限事項
 
+- ゲームは作れません
+  - 選択肢や条件分岐など最低限のゲーム性の実装もないので
+  - そもそもゲーム性が必要かどうかというのが悩みどころ
+- sd_gimaiではボイスつきのセリフ以外の文字表現は一切できません
 - project以下には1つの作品しか設置できません。
   - imageファイル名はuniqueになるはずです。
   - voiceの先頭3桁が同じファイルも存在しない想定です。
