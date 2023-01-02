@@ -6,12 +6,11 @@ Game Talk Scenes Builder
 
 # 前提
 
-- MaiNovelを内蔵しています
+- MaiNovelをエンジン部のみ内蔵しています
   - https://github.com/Zuntan03/MaiNovel
-  - ただし、MaiNovelの全機能を使うことはできません
 - JSONファイルの手編集をしなくても作品が作れます
   - VSCodeのインストールは必要ありません
-- COEIROINKをダウンロードする必要があります
+- 音声編集ははCOEIROINKを利用する想定です
   - https://coeiroink.com/
   - CPU版でもGPU版でもお好きなほうを
   - CUDAの競合による環境破壊に関して私は一切の責任を負いません
@@ -37,7 +36,7 @@ Game Talk Scenes Builder
   - ボタンを押すとPreviewタブの中で再生確認ができます。
 - mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
 - Buildタブでゲームを出力できます。
-- MaiNovel同様、preview.bat で動作させることができます。
+- server.bat でローカルでも動作確認ができます。
 
 ## project/mainovel.json
 
@@ -69,18 +68,13 @@ Buildされるjsonに合体されます。
 
 # 制限事項
 
-project以下には1つの作品しか設置できません。
-- imageファイル名はuniqueになるはずです。
-- voiceの先頭3桁が同じファイルも存在しない想定です。
-
-# 既知の不具合
-
-- 最初に001のボイスが2回再生されます
+- project以下には1つの作品しか設置できません。
+  - imageファイル名はuniqueになるはずです。
+  - voiceの先頭3桁が同じファイルも存在しない想定です。
+- 最初にダミーのm000が追加されます
   - MaiNovelではm000必須だがCOEIROINKのwavが001から始まっているため
-  - 000を001のコピーから作ることで無理矢理動かしている(あとで直す)
-- 空のs001フォルダが作られる
-- Powershellの実行権限が必要
-  - Pythonでhttp.server立てればいいじゃん説
+  - imageは001のコピーから000を作ります
+  - voiceは無音のファイルを自動的に設置します
 
 # 今後の展望
 
