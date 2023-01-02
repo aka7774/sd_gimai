@@ -6,37 +6,42 @@ Game Talk Scenes Builder
 
 # 前提
 
-- MaiNovelをエンジン部のみ内蔵しています
-  - https://github.com/Zuntan03/MaiNovel
 - JSONファイルの手編集をしなくても作品が作れます
   - VSCodeのインストールは必要ありません
-- 音声編集ははCOEIROINKを利用する想定です
+- MaiNovelをエンジン部のみ内蔵しています
+  - https://github.com/Zuntan03/MaiNovel
+  - build後のmainovel.jsonを利用することでMaiNovel本来の使い方も出来るはず
+- 音声はCOEIROINKが便利です(自己責任で)
   - https://coeiroink.com/
-  - CPU版でもGPU版でもお好きなほうを
-  - CUDAの競合による環境破壊に関して私は一切の責任を負いません
+  - sd_gimaiはCOEIROINKに依存していません
 - ゲームは作れません
   - 選択肢や条件分岐など最低限のゲーム性の実装もないので
   - そもそもゲーム性が必要かどうかというのが悩みどころ
+- sd_gimaiではセリフ以外の文字表現は一切できません
 
 # 制作の流れ
 
 - COEIROINKにセリフを打ち込んでいきます。
-  - sd_gimaiではセリフ以外の文字表現は一切できません。
 - 「音声書き出し」をすると 001 から始まる wav ファイルが保存されます。
   - ファイル名は数字3桁で始まっていればそのままの名前で大丈夫です。
 - セリフが書けたら「テキストを繋げて書き出し」をして、名前を s000.txt にしてwavと同じ場所に保存します。
 - 1111で画像を生成したら s000mXXX.png という名前で保存します。XXXはwavファイル名と同じ数字です。
   - 画像は不足していても動作しますが、最初の 001 は必須です。
   - 音声は省略できないようです。(mainovelの制約?)
-- シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
-  - 画像ファイル名も s001m001.png からになります。
 - できたファイルを extensions/sd_gimai/project の下に移動します。
   - サブディレクトリも見に行きます。
 - sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
   - ボタンを押すとPreviewタブの中で再生確認ができます。
-- mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
 - Buildタブでゲームを出力できます。
 - server.bat でローカルでも動作確認ができます。
+
+## Tips
+
+- シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
+  - 画像ファイル名も s001m001.png からになります。
+- mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
+- 拡張子を変えて保存する外部ソフトを利用することで閲覧時の互換性を保てます。
+  - MaiNovelのサンプルは webp/aac でした
 
 ## project/mainovel.json
 
