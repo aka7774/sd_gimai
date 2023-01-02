@@ -62,6 +62,8 @@ def build(input_dir, voice_ext, image_ext, build_dir):
         with open(input_json, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
+    null_voice = os.path.join(mainovel_dir(), f"m000.{voice_ext}")
+
     data['config']['sceneCodeFormat'] = '000'
     data['config']['messageCodeFormat'] = '000'
     data['config']['imageFormat'] = image_ext
@@ -85,7 +87,7 @@ def build(input_dir, voice_ext, image_ext, build_dir):
                 # indexのズレ補正
                 if not len(s['messages']):
                     s['messages'].append('')
-                    shutil.copy(r['voice'], os.path.join(voice_dir, scene+'m000.'+voice_ext))
+                    shutil.copy(null_voice, os.path.join(voice_dir, scene+'m000.'+voice_ext))
                     shutil.copy(r['image'], os.path.join(image_dir, scene+'m000.'+image_ext))
                 s['messages'].append(r['text'])
                 if r['voice']:
