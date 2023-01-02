@@ -1,6 +1,6 @@
 import gradio as gr
 
-from scripts import project
+from scripts import project, moegoe
 
 from modules import script_callbacks
 
@@ -8,12 +8,18 @@ def on_ui_tabs():
     with gr.Blocks() as gimai:
         out_html = gr.HTML()
         with gr.Tabs() as tabs:
+            with gr.TabItem("MoeGoe"):
+                model_dir = gr.Textbox(label="VITS saved_model directory")
+                reload_model = gr.Button("Reload")
+                model_html = gr.HTML()
             with gr.TabItem("List"):
                 input_dir = gr.Textbox(value=project.default_input_dir(), label="Input directory")
                 voice_ext = gr.Textbox(value='wav', label="Voice ext")
                 image_ext = gr.Textbox(value='png', label="Image ext")
+                moegoe_path = gr.Textbox(label="[Optional] Path to MoeGoe.exe (CLI)")
 
                 reload_btn = gr.Button("Reload")
+                moegoe_generate = gr.Button("Generate MoeGoe All")
                 table_html = gr.HTML()
             with gr.TabItem("Preview"):
                 out_voice = gr.Audio()
@@ -23,6 +29,17 @@ def on_ui_tabs():
             with gr.TabItem("Build"):
                 build_dir = gr.Textbox(value=project.default_build_dir(), label="Output directory")
                 build_btn = gr.Button("build")
+
+        reload_model.click(
+            fn=moegoe.reload_table,
+            inputs=[model_dir],
+            outputs=[model_html]
+        )
+        moegoe_generate.click(
+            fn=moegoe.generate_all,
+            inputs=[input_dir, voice_ext, image_ext, model_dir, moegoe_path],
+            outputs=[out_html]
+        )
 
         reload_btn.click(
             fn=project.reload_table,
@@ -38,7 +55,7 @@ def on_ui_tabs():
         title = gr.Text(elem_id=f"gimai_title", visible=False).style(container=False)
         voice_btn.click(
             fn=project.show_voice,
-            inputs=[title],
+            inputs=[title, input_dir, model_dir, moegoe_path],
             outputs=[out_voice],
         )
         image_btn.click(

@@ -1,7 +1,7 @@
 
-function show_voice(button, path) {
+function show_voice(button, path, title, name, vtext) {
     textarea = gradioApp().querySelector('#gimai_title textarea')
-    textarea.value = path
+    textarea.value = path + ',' + title + ',' + name + ',' + vtext
 	textarea.dispatchEvent(new Event("input", { bubbles: true }))
     gradioApp().querySelector('#gimai_voice_button').click()
 }

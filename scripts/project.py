@@ -5,6 +5,8 @@ import json
 import glob
 import PIL as Image
 
+from scripts import moegoe
+
 def default_input_dir():
     p = pathlib.Path(__file__).parts[-4:-2]
     filepath = os.path.join(p[0], p[1], 'project')
@@ -27,7 +29,7 @@ def get_list(dir, voice_ext, image_ext):
         scene = os.path.splitext(os.path.basename(filepath))[0]
         filedir = os.path.dirname(filepath)
         line = 1
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, 'r', encoding='utf_8_sig') as f:
             for l in f:
                 li = l.rstrip("\r\n").split(',')
 
@@ -37,8 +39,14 @@ def get_list(dir, voice_ext, image_ext):
                 r['title'] = r['scene']+r['line']
                 r['name'] = li[0]
                 r['text'] = li[1]
-                voice = glob.glob(f"{filedir}/{str(line).zfill(3)}*.{voice_ext}")
-                r['voice'] = voice[0].replace(os.sep, '/') if len(voice) else ''
+                # sXXXmXXX.ext を優先的に探す
+                voice = glob.glob(f"{dir}/**/{r['title']}.{voice_ext}", recursive=True)
+                if len(voice):
+                    r['voice'] = voice[0].replace(os.sep, '/')
+                else:
+                    # なければ filedir/XXX.ext を探す
+                    voice = glob.glob(f"{filedir}/{str(line).zfill(3)}*.{voice_ext}")
+                    r['voice'] = voice[0].replace(os.sep, '/') if len(voice) else ''
                 image = glob.glob(f"{dir}/**/{r['title']}.{image_ext}", recursive=True)
                 r['image'] = image[0].replace(os.sep, '/') if len(image) else ''
 
@@ -72,12 +80,6 @@ def build(input_dir, voice_ext, image_ext, build_dir):
     rs = get_list(input_dir, voice_ext, image_ext)
     for i in range(0, 999):
         scene = 's'+str(i).zfill(3)
-        voice_dir = os.path.join(build_dir, voice_ext, scene)
-        if not os.path.exists(voice_dir):
-            os.makedirs(voice_dir)
-        image_dir = os.path.join(build_dir, image_ext, scene)
-        if not os.path.exists(image_dir):
-            os.makedirs(image_dir)
 
         s = {}
         s['sceneName'] = ''
@@ -87,6 +89,14 @@ def build(input_dir, voice_ext, image_ext, build_dir):
                 # indexのズレ補正
                 if not len(s['messages']):
                     s['messages'].append('')
+                    # ディレクトリ作成
+                    voice_dir = os.path.join(build_dir, voice_ext, scene)
+                    if not os.path.exists(voice_dir):
+                        os.makedirs(voice_dir)
+                    image_dir = os.path.join(build_dir, image_ext, scene)
+                    if not os.path.exists(image_dir):
+                        os.makedirs(image_dir)
+                    # ダミーファイルのコピー
                     shutil.copy(null_voice, os.path.join(voice_dir, scene+'m000.'+voice_ext))
                     shutil.copy(r['image'], os.path.join(image_dir, scene+'m000.'+image_ext))
                 s['messages'].append(r['text'])
@@ -117,8 +127,22 @@ def build(input_dir, voice_ext, image_ext, build_dir):
 
     return 'saved.'
 
-def show_voice(path):
-    return path
+def show_voice(title, input_dir, model_dir, moegoe_path):
+    # path,title,name,text
+    t = title.split(',')
+
+    if input_dir and model_dir and moegoe_path:
+        if len(t) >= 4:
+            # model_id:speaker_id:speaker_name
+            n = t[2].split(':')
+
+            if len(n) >= 3:
+                return moegoe.generate(t[1], t[3], n[0], n[1], input_dir, model_dir, moegoe_path)
+
+    if t[0]:
+        return t[0]
+    else:
+        raise ValueError('Require model_id:speaker_id:speaker_name, input_dir, model_dir, moegoe_path')
 
 def show_image(path):
     return path
@@ -145,8 +169,8 @@ def table_html(rs):
 
     for r in rs:
         voice = f"""
-                <td><input onclick="show_voice(this, '{r['voice']}')" type="button" value="voice" class="gr-button gr-button-lg gr-button-secondary"></td>
-                """ if r['voice'] else '<td></td>'
+                <td>{'Y' if r['voice'] else ''} <input onclick="show_voice(this, '{r['voice']}', '{r['title']}', '{r['name']}', '{r['text']}')" type="button" value="voice" class="gr-button gr-button-lg gr-button-secondary"></td>
+                """
         image = f"""
                 <td><input onclick="show_image(this, '{r['image']}')" type="button" value="image" class="gr-button gr-button-lg gr-button-secondary"></td>
                 """ if r['image'] else '<td></td>'
