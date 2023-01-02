@@ -101,8 +101,7 @@ def build(input_dir, voice_ext, image_ext, build_dir):
         json.dump(data, f, indent="\t", ensure_ascii=False)
 
     mainovel_files = [
-    'Preview.bat',
-    'LaunchPreviewServer.ps1',
+    'server.bat',
     'index.html',
     'js/MaiNovel.js',
     'js/MaiNovelPlayer.js',
