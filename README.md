@@ -2,6 +2,10 @@
 Game Talk Scenes Builder
 
 - イラストとセリフと音声をあわせた作品をつくるためのツールです。
+
+# サンプル
+
+- https://aka7774.netlify.app/
 - 義妹です。
 
 # 前提
