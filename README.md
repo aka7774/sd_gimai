@@ -48,11 +48,24 @@ Game Talk Scenes Builder
 - 「Generate MoeGoe All」を押します。
   - あるいは voice ボタンで1行だけ出力して Preview タブで確認できます。
 
-## 音声作成後の作業(共通)
+## 画像の配置(共通)
 
-- 1111で画像を生成したら s000mXXX.png という名前で保存します。XXXはwavファイル名と同じ数字です。
+- 1111で画像を生成したら s000mXXX.png という名前で保存します。
+  - XXXはwavファイル名と同じ数字です。
   - 画像は不足していても動作しますが、最初の 001 は必須です。
-  - 音声は省略できないようです。(mainovelの制約?)
+
+## [Optional] sd_infotextsを使う画像生成
+
+- https://github.com/aka7774/sd_infotexts
+- 画像生成の設定はInfotext Exの推奨に従います。
+  - https://github.com/aka7774/sd_infotext_ex
+- 画像を出力したら extensions/sd_infotexts/png フォルダに保存します。
+- 画像を変更したい時は「PNG to TXT」「Copy TXT」を実行し edit_txt の中身を書き換えます。
+- Script から画像の一括生成が出来ます。
+- webp への一括変換(拡大、文字入れ)も出来ます。
+
+## ビルド(共通)
+
 - できたファイルを extensions/sd_gimai/project の下に移動します。
   - サブディレクトリも見に行きます。
 - sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
@@ -65,8 +78,7 @@ Game Talk Scenes Builder
 - シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
   - 画像ファイル名も s001m001.png からになります。
 - mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
-- 拡張子を変えて保存する外部ソフトを利用することで閲覧時の互換性を保てます。
-  - MaiNovelのサンプルは webp/aac でした
+- 音声のファイル形式を外部ソフトで aac などに変換すれば閲覧時の対応ブラウザを増やせます。
 
 ## project/mainovel.json
 
@@ -101,7 +113,8 @@ Buildされるjsonに合体されます。
 - ゲームは作れません
   - 選択肢や条件分岐など最低限のゲーム性の実装もないので
   - そもそもゲーム性が必要かどうかというのが悩みどころ
-- sd_gimaiではボイスつきのセリフ以外の文字表現は一切できません
+- ボイスつきのセリフ以外の文字表現は一切できません
+- 音声ファイルは省略できないようです
 - project以下には1つの作品しか設置できません。
   - imageファイル名はuniqueになるはずです。
   - voiceの先頭3桁が同じファイルも存在しない想定です。
@@ -117,8 +130,11 @@ Buildされるjsonに合体されます。
 
 # 今後の展望
 
+- ffmpeg.exeの別途導入を前提としたwav→aacの変換機能
+- 入力内容の記憶(config.jsonで出来るけど)
+- Linux対応(readmeに追記する程度を想定)
 - 需要があるんならエンジン部の複数対応
-  - ティラノスクリプト?
+  - ティラノスクリプト
 
 # 望み
 
