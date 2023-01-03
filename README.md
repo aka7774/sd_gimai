@@ -53,10 +53,12 @@ Game Talk Scenes Builder
 ## VSCode(MaiNovel)を使う場合
 
 - build後にMaiNovelを使って音声ファイルを出力します(他とは手順が逆になります)
+- nameは空白で構いません(カンマは必要です)
 
 ## MoeGoe GUIを使う場合
 
 - XXX行目のセリフに対応する音声を s000mXXX.wav という名前で保存します。
+- MoeGoe(CLI)をsd_gimaiから使わないのであればnameは空白で構いません(カンマは必要です)
 
 ## MoeGoe(CLI)を使う場合
 
