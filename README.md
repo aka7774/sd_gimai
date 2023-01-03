@@ -81,10 +81,14 @@ Game Talk Scenes Builder
 
 ## [Optional] ffmpegを使う音声変換
 
-- https://ffmpeg.org/
-- 内蔵の aac ライブラリを使用します
-  - libfdk_aacはLICENSEの都合でバイナリ配布できないので対応しません
 - ファイルサイズ(通信容量)削減とブラウザ互換性に期待できます
+- https://ffmpeg.org/
+  - バイナリをダウンロードしてください。一応full推奨。
+- List タブの Path to ffmpeg.exe を入力します
+- Generate mp4 aac All を押します
+  - 指定した拡張子の音声がすべて拡張子mp4のaacコーデックに変換されます
+  - 内蔵の aac ライブラリを使用します
+    - libfdk_aacはLICENSEの都合でバイナリ配布できないので対応しません
 
 ## Tips
 
