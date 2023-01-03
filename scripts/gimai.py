@@ -1,6 +1,6 @@
 import gradio as gr
 
-from scripts import project, moegoe
+from scripts import project, moegoe, ffmpeg
 
 from modules import script_callbacks
 
@@ -20,9 +20,13 @@ def on_ui_tabs():
 
                 reload_btn = gr.Button("Reload")
                 moegoe_generate = gr.Button("Generate MoeGoe All")
+
+                ffmpeg_path = gr.Textbox(label="[Optional] Path to ffmpeg.exe (CLI)")
+                ffmpeg_generate = gr.Button("Generate mp4 aac All")
+
+                out_voice = gr.Audio()
                 table_html = gr.HTML()
             with gr.TabItem("Preview"):
-                out_voice = gr.Audio()
                 out_image = gr.Image()
                 voice_btn = gr.Button(elem_id=f"gimai_voice_button", visible=False).style(container=False)
                 image_btn = gr.Button(elem_id=f"gimai_image_button", visible=False).style(container=False)
@@ -38,6 +42,11 @@ def on_ui_tabs():
         moegoe_generate.click(
             fn=moegoe.generate_all,
             inputs=[input_dir, voice_ext, image_ext, model_dir, moegoe_path],
+            outputs=[out_html]
+        )
+        ffmpeg_generate.click(
+            fn=ffmpeg.generate_all,
+            inputs=[input_dir, voice_ext, image_ext, ffmpeg_path],
             outputs=[out_html]
         )
 

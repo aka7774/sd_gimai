@@ -3,7 +3,6 @@ import shutil
 import pathlib
 import json
 import glob
-import PIL as Image
 
 from scripts import moegoe
 

@@ -4,7 +4,6 @@ import pathlib
 import json
 import glob
 import subprocess
-import PIL as Image
 
 from scripts import project, utils
 
