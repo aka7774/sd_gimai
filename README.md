@@ -70,15 +70,23 @@ Game Talk Scenes Builder
   - サブディレクトリも見に行きます。
 - sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
   - ボタンを押すとPreviewタブで再生確認ができます。
+- 必要に応じて画像と音声の形式を変換します。
+  - 変換後は拡張子を再設定して Reload ボタンを押し、ファイルの確認をします。
 - Buildタブでゲームを出力できます。
 - server.bat でローカルでも動作確認ができます。
+
+## [Optional] ffmpegを使う音声変換
+
+- https://ffmpeg.org/
+- 内蔵の aac ライブラリを使用します
+  - libfdk_aacはLICENSEの都合でバイナリ配布できないので対応しません
+- ファイルサイズ(通信容量)削減とブラウザ互換性に期待できます
 
 ## Tips
 
 - シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
   - 画像ファイル名も s001m001.png からになります。
 - mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
-- 音声のファイル形式を外部ソフトで aac などに変換すれば閲覧時の対応ブラウザを増やせます。
 
 ## project/mainovel.json
 
@@ -130,7 +138,6 @@ Buildされるjsonに合体されます。
 
 # 今後の展望
 
-- ffmpeg.exeの別途導入を前提としたwav→aacの変換機能
 - 入力内容の記憶(config.jsonで出来るけど)
 - Linux対応(readmeに追記する程度を想定)
 - 需要があるんならエンジン部の複数対応
