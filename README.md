@@ -11,43 +11,66 @@ Game Talk Scenes Builder
 # 前提
 
 - イラスト、音声、セリフはそれぞれのソフトで作成する必要があります
-  - VSCodeのインストールやJSONファイルの手編集は必須でなくなります
 - MaiNovelをエンジン部のみ内蔵しています
   - https://github.com/Zuntan03/MaiNovel
-  - build後のmainovel.jsonを利用することでMaiNovel本来の使い方も出来るはず
-- 音声はCOEIROINKかMoeGoeが便利です(自己責任)
+
+## 音声ファイル作成
+
+以下のソフトウェアが便利です(自己責任)
+
+- VOICEVOX
+  - https://voicevox.hiroshiba.jp/
+  - 中品質(自称)
+- COEIROINK
   - https://coeiroink.com/
+  - VOICEVOXより高品質に感じる
+- MoeGoe
   - https://github.com/CjangCjengh/MoeGoe
   - https://huggingface.co/spaces/skytnt/moe-tts
+  - モデルデータが豊富
+  - 商用利用不可
+  - UIが使いにくく調教しづらい
+  - 中国語訛りになりがち
 
 # 制作の流れ
 
-## COEIROINKを使う場合 
+## VOICEVOX/COEIROINKを使う場合 
 
-- COEIROINKにセリフを打ち込んでいきます。
+- VOICEVOX/COEIROINKにセリフを打ち込んでいきます。
+  - 内部構造は違いますが画面の見た目はほぼ一緒です。
 - 「音声書き出し」をすると 001 から始まる wav ファイルが保存されます。
   - ファイル名は数字3桁で始まっていればそのままの名前で大丈夫です。
 - セリフが書けたら「テキストを繋げて書き出し」をして、名前を s000.txt にしてwavと同じ場所に保存します。
 
-## MoeGoeを使う場合
+## VOICEVOX/COEIROINK以外を使う場合
 
-- MoeGoe は Windows 用のバイナリをダウンロードしてください。
-  - MoeGoe GUIは不要です。
-  - Windows以外では(PyOpenJTalkが入るので) MoeGoe.py から実行できるかも知れません。
 - テキストエディタにセリフを打ち込んでいきます。
   - Notepad++など行番号が出るやつがおすすめです。
-- セリフが書けたら sd_gimai の MoeGoe タブから使いたい声の name を取得します。
-  - moe-tts をダウンロードして saved_model を指定します
-  - 「0:0:綾地寧々」のように、数字とコロンが入るようにコピーしてください
-- name とセリフをカンマ区切りで一行にします。
+- name(後述)とセリフをカンマ区切りで一行にします。
   - 一括編集には LibreOffice Calc などが便利かもしれません。
+- このファイルを s000.txt という名前で保存します。
+
+## VSCode(MaiNovel)を使う場合
+
+- build後にMaiNovelを使って音声ファイルを出力します(他とは手順が逆になります)
+
+## MoeGoe GUIを使う場合
+
+- XXX行目のセリフに対応する音声を s000mXXX.wav という名前で保存します。
+
+## MoeGoe(CLI)を使う場合
+
+- MoeGoe は Windows 用のバイナリをダウンロードしてください。
+  - Windows以外では(PyOpenJTalkが入るので) MoeGoe.py から実行できるかも知れません。
+- セリフが書けたら sd_gimai の MoeGoe タブから使いたい声の name を取得します。
+  - moe-tts をダウンロードして saved_model を指定し Reload ボタンを押します
+  - 「0:0:綾地寧々」のように、数字とコロンが入るようにコピーしてください
 
 ```
 0:0:綾地寧々,こんにちは。
 0:0:綾地寧々,私はバナナが大好きです。
 ```
 
-- このファイルを s000.txt という名前で保存します。
 - sd_gimai の List タブで「Reload」すると内容を画面に表示できます。
 - 「Generate MoeGoe All」を押します。
   - あるいは voice ボタンで1行だけ出力して Preview タブで確認できます。
@@ -58,7 +81,7 @@ Game Talk Scenes Builder
   - XXXはwavファイル名と同じ数字です。
   - 画像は不足していても動作しますが、最初の 001 は必須です。
 
-## [Optional] sd_infotextsを使う画像生成
+### [Optional] sd_infotextsを使う画像生成
 
 - https://github.com/aka7774/sd_infotexts
 - 画像生成の設定はInfotext Exの推奨に従います。
@@ -73,13 +96,13 @@ Game Talk Scenes Builder
 - できたファイルを extensions/sd_gimai/project の下に移動します。
   - サブディレクトリも見に行きます。
 - sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
-  - ボタンを押すとPreviewタブで再生確認ができます。
+  - imageボタンを押すとPreviewタブで表示確認ができます。
 - 必要に応じて画像と音声の形式を変換します。
   - 変換後は拡張子を再設定して Reload ボタンを押し、ファイルの確認をします。
 - Buildタブでゲームを出力できます。
 - server.bat でローカルでも動作確認ができます。
 
-## [Optional] ffmpegを使う音声変換
+### [Optional] ffmpegを使う音声変換
 
 - ファイルサイズ(通信容量)削減とブラウザ互換性に期待できます
 - https://ffmpeg.org/
@@ -130,12 +153,13 @@ Buildされるjsonに合体されます。
   - 選択肢や条件分岐など最低限のゲーム性の実装もないので
   - そもそもゲーム性が必要かどうかというのが悩みどころ
 - ボイスつきのセリフ以外の文字表現は一切できません
+  - ボイスと表示を変えるには、wavを設置してからtxtを書き換える手があります
 - 音声ファイルは省略できないようです
 - project以下には1つの作品しか設置できません。
   - imageファイル名はuniqueになるはずです。
   - voiceの先頭3桁が同じファイルも存在しない想定です。
 - 最初にダミーのm000が追加されます
-  - MaiNovelではm000必須だがCOEIROINKのwavが001から始まっているため
+  - MaiNovelではm000必須だがVOICEVOX/COEIROINKのwavが001から始まっているため
   - imageは001のコピーから000を作ります
   - voiceは無音のファイルを自動的に設置します
 - MoeGoeは恐らく3.0.1でしか動きません
