@@ -34,7 +34,9 @@ Game Talk Scenes Builder
 
 # 制作の流れ
 
-## VOICEVOX/COEIROINKを使う場合 
+## 音声の保存
+
+### VOICEVOX/COEIROINKを使う場合 
 
 - VOICEVOX/COEIROINKにセリフを打ち込んでいきます。
   - 内部構造は違いますが画面の見た目はほぼ一緒です。
@@ -42,7 +44,7 @@ Game Talk Scenes Builder
   - ファイル名は数字3桁で始まっていればそのままの名前で大丈夫です。
 - セリフが書けたら「テキストを繋げて書き出し」をして、名前を s000.txt にしてwavと同じ場所に保存します。
 
-## VOICEVOX/COEIROINK以外を使う場合
+### VOICEVOX/COEIROINK以外を使う場合
 
 - テキストエディタにセリフを打ち込んでいきます。
   - Notepad++など行番号が出るやつがおすすめです。
@@ -50,17 +52,17 @@ Game Talk Scenes Builder
   - 一括編集には LibreOffice Calc などが便利かもしれません。
 - このファイルを s000.txt という名前で保存します。
 
-## VSCode(MaiNovel)を使う場合
+### VSCode(MaiNovel)を使う場合
 
 - build後にMaiNovelを使って音声ファイルを出力します(他とは手順が逆になります)
 - nameは空白で構いません(カンマは必要です)
 
-## MoeGoe GUIを使う場合
+### MoeGoe GUIを使う場合
 
 - XXX行目のセリフに対応する音声を s000mXXX.wav という名前で保存します。
 - MoeGoe(CLI)をsd_gimaiから使わないのであればnameは空白で構いません(カンマは必要です)
 
-## MoeGoe(CLI)を使う場合
+### MoeGoe(CLI)を使う場合
 
 - MoeGoe は Windows 用のバイナリをダウンロードしてください。
   - Windows以外では(PyOpenJTalkが入るので) MoeGoe.py から実行できるかも知れません。
@@ -77,36 +79,45 @@ Game Talk Scenes Builder
 - 「Generate MoeGoe All」を押します。
   - あるいは voice ボタンで1行だけ出力して Preview タブで確認できます。
 
-## 画像の配置(共通)
+### 長編作品の場合
+
+- シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
+  - 画像ファイル名も s001m001.png からになります。
+
+## 画像の保存
 
 - 1111で画像を生成したら s000mXXX.png という名前で保存します。
   - XXXはwavファイル名と同じ数字です。
   - 画像は不足していても動作しますが、最初の 001 は必須です。
 
-### [Optional] sd_infotextsを使う画像生成
-
-- https://github.com/aka7774/sd_infotexts
-- 画像生成の設定はInfotext Exの推奨に従います。
-  - https://github.com/aka7774/sd_infotext_ex
-- 画像を出力したら extensions/sd_infotexts/png フォルダに保存します。
-- 画像を変更したい時は「PNG to TXT」「Copy TXT」を実行し edit_txt の中身を書き換えます。
-- Script から画像の一括生成が出来ます。
-- webp への一括変換(拡大、文字入れ)も出来ます。
-
-## ビルド(共通)
+## ファイルの設置
 
 - できたファイルを extensions/sd_gimai/project の下に移動します。
   - サブディレクトリも見に行きます。
 - sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
   - imageボタンを押すとPreviewタブで表示確認ができます。
 - 必要に応じて画像と音声の形式を変換します。
-  - 変換後は拡張子を再設定して Reload ボタンを押し、ファイルの確認をします。
-- Buildタブでゲームを出力できます。
-- server.bat でローカルでも動作確認ができます。
 
-### [Optional] ffmpegを使う音声変換
+## 画像形式の変換
+
+- ファイルサイズ(通信容量)削減に期待できます
+
+### sd_infotextsを使う場合
+
+- https://github.com/aka7774/sd_infotexts
+- 画像生成の設定はInfotext Exの推奨に従います。
+  - https://github.com/aka7774/sd_infotext_ex
+- 画像を出力したら extensions/sd_infotexts/png フォルダに保存します。
+  - 画像を変更したい時は「PNG to TXT」「Copy TXT」を実行し edit_txt の中身を書き換えます。
+  - Script から画像の一括生成が出来ます。
+- webp への一括変換(拡大、文字入れ)が出来ます。
+
+## 音声形式の変換
 
 - ファイルサイズ(通信容量)削減とブラウザ互換性に期待できます
+
+### ffmpegを使う場合
+
 - https://ffmpeg.org/
   - バイナリをダウンロードしてください。一応full推奨。
 - List タブの Path to ffmpeg.exe を入力します
@@ -115,22 +126,14 @@ Game Talk Scenes Builder
   - 内蔵の aac ライブラリを使用します
     - libfdk_aacはLICENSEの都合でバイナリ配布できないので対応しません
 
-## 公開
+## ビルド
 
-- デフォルトでR18指定になっています。
-  - 不要であれば index.html を編集して外してください。
-- server.bat は削除してかまいません。
-- アダルト可でファイルの設置できる無料レンタルサーバーは貴重です。
-  - FC2はKYCが強化されて身分証明書と契約書のアップロードが必要になっていた
-  - Wixはファイルがアップロードできない
-
-## Tips
-
-- シーンを切り替えたい場合、セリフが1000以上になる時は s001.txt を作って同様に作業します。
-  - 画像ファイル名も s001m001.png からになります。
+- 変換後の拡張子を再設定して Reload ボタンを押し、ファイルの確認をします。
 - mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
+- Buildタブでゲームを出力できます。
+- server.bat でローカルでも動作確認ができます。
 
-## project/mainovel.json
+### project/mainovel.json
 
 Buildされるjsonに合体されます。
 
@@ -157,6 +160,15 @@ Buildされるjsonに合体されます。
     "imageFormat": "png",
     "audioFormat": "wav"
 ```
+
+## 公開
+
+- デフォルトでR18指定になっています。
+  - 不要であれば index.html を編集して外してください。
+- server.bat は削除してかまいません。
+- アダルト可でファイルを設置できる無料レンタルサーバーは貴重です。
+  - FC2はKYCが強化されて身分証明書と契約書のアップロードが必要になっていた
+  - Wixはファイルがアップロードできない
 
 # 制限事項
 
