@@ -126,7 +126,7 @@ def build(input_dir, voice_ext, image_ext, build_dir):
 
     return 'saved.'
 
-def show_voice(title, input_dir, model_dir, moegoe_path):
+def show_voice(title, input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
     # path,title,name,text
     t = title.split(',')
 
@@ -136,7 +136,7 @@ def show_voice(title, input_dir, model_dir, moegoe_path):
             n = t[2].split(':')
 
             if len(n) >= 3:
-                return moegoe.generate(t[1], t[3], n[0], n[1], input_dir, model_dir, moegoe_path)
+                return moegoe.generate(t[1], t[3], n[0], n[1], input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja)
 
     if t[0]:
         return t[0]

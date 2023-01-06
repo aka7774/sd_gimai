@@ -7,17 +7,17 @@ import subprocess
 
 from scripts import project, utils
 
-def generate_all(input_dir, voice_ext, image_ext, model_dir, moegoe_path):
+def generate_all(input_dir, voice_ext, image_ext, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
     rs = project.get_list(input_dir, voice_ext, image_ext)
     for r in rs:
         # model_id:speaker_id:speaker_name
         n = r['name'].split(':')
         if len(n) < 3:
             continue
-        generate(r['title'], r['text'], n[0], n[1], input_dir, model_dir, moegoe_path)
+        generate(r['title'], r['text'], n[0], n[1], input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja)
     return 'generated.'
 
-def generate(title, text, model_id, speaker_id, input_dir, model_dir, moegoe_path):
+def generate(title, text, model_id, speaker_id, input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
     if not os.path.exists(input_dir):
         raise ValueError(f"input_dir not found: {input_dir}")
     if not os.path.exists(model_dir):
@@ -36,9 +36,9 @@ def generate(title, text, model_id, speaker_id, input_dir, model_dir, moegoe_pat
         #Path of a config file: path\to\config.json
         config_path.replace(os.sep, '/'),
         #TTS or VC? (t/v):t
-         't',
+        't',
         #Text to read:
-        '[JA]'+text+'[JA]',
+        f"[LENGTH={moegoe_dr}][NOISE={moegoe_nr}][NOISEW={moegoe_nb}]{moegoe_ja}{text}{moegoe_ja}",
         #Speaker ID:
         speaker_id,
         #Path to save: path\to\demo.wav
@@ -72,6 +72,15 @@ def get_list(model_dir):
         rs.append(m)
 
     return rs
+
+def get_all_paths(input_dir, voice_ext, image_ext):
+    rs = project.get_list(input_dir, voice_ext, image_ext)
+    all_paths = []
+    for r in rs:
+        if not r['voice']:
+            continue
+        all_paths.append(r['voice'])
+    return all_paths
 
 def reload_table(model_dir):
     rs = get_list(model_dir)
