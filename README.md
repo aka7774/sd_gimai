@@ -66,7 +66,7 @@ Game Talk Scenes Builder
 
 - MoeGoe は Windows 用のバイナリをダウンロードしてください。
   - Windows以外では(PyOpenJTalkが入るので) MoeGoe.py から実行できるかも知れません。
-- セリフが書けたら sd_gimai の MoeGoe タブから使いたい声の name を取得します。
+- セリフが書けたら sd_gimai の「MoeGoe Actors」タブから使いたい声の name を取得します。
   - moe-tts をダウンロードして saved_model を指定し Reload ボタンを押します
   - 「0:0:綾地寧々」のように、数字とコロンが入るようにコピーしてください
 
@@ -75,9 +75,9 @@ Game Talk Scenes Builder
 0:0:綾地寧々,私はバナナが大好きです。
 ```
 
-- sd_gimai の List タブで「Reload」すると内容を画面に表示できます。
+- sd_gimai の「Project Viewer」タブで「Reload」すると内容を画面に表示できます。
 - 「Generate MoeGoe All」を押します。
-  - あるいは voice ボタンで1行だけ出力して Preview タブで確認できます。
+  - あるいは voice ボタンで1行だけ出力して確認できます。
 
 ### 長編作品の場合
 
@@ -94,8 +94,8 @@ Game Talk Scenes Builder
 
 - できたファイルを extensions/sd_gimai/project の下に移動します。
   - サブディレクトリも見に行きます。
-- sd_gimai の List で Reload すると、voiceとimageの存在確認ができます。
-  - imageボタンを押すとPreviewタブで表示確認ができます。
+- sd_gimai の「Project Viewer」で Reload すると、voiceとimageの存在確認ができます。
+  - imageボタンを押すと「Preview Image」タブで表示確認ができます。
 - 必要に応じて画像と音声の形式を変換します。
 
 ## 画像形式の変換
@@ -121,7 +121,7 @@ Game Talk Scenes Builder
 - https://ffmpeg.org/
   - バイナリをダウンロードしてください。一応full推奨。
 - List タブの Path to ffmpeg.exe を入力します
-- Generate mp4 aac All を押します
+- 「Generate mp4 aac All」を押します
   - 指定した拡張子の音声がすべて拡張子mp4のaacコーデックに変換されます
   - 内蔵の aac ライブラリを使用します
     - libfdk_aacはLICENSEの都合でバイナリ配布できないので対応しません
@@ -130,7 +130,7 @@ Game Talk Scenes Builder
 
 - 変換後の拡張子を再設定して Reload ボタンを押し、ファイルの確認をします。
 - mainovelのjsonを細かくいじりたい場合は project/mainovel.json を作ります。(後述)
-- Buildタブでゲームを出力できます。
+- 「Build」ボタンでゲームを出力できます。
 - server.bat でローカルでも動作確認ができます。
 
 ### project/mainovel.json
@@ -189,11 +189,9 @@ Buildされるjsonに合体されます。
   - コマンドラインの対話を決め打ちしているので内容が狂うと話が噛み合わなくなります
   - 対話の無い安定したバイナリがあれば移行してもいいけど恐らく枯れたと判断
 - VITSモデルの読み込みには info.json への記述が必要です
-- MoeGoeに送るテキストの先頭と末尾には自動的に[JA]が付与されます
 
 # 今後の展望
 
-- 入力内容の記憶(config.jsonで出来るけど)
 - Linux対応(readmeに追記する程度を想定)
 - 需要があるんならエンジン部の複数対応
   - ティラノスクリプト
