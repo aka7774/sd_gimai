@@ -84,11 +84,11 @@ def on_ui_tabs():
             inputs=[title],
             outputs=[out_image],
         )
-        moegoe_allplay.click(
-            fn=moegoe.get_all_paths,
-            inputs=[input_dir, voice_ext, image_ext],
-            outputs=[out_voice],
-        )
+        #moegoe_allplay.click(
+        #    fn=moegoe.get_all_paths,
+        #    inputs=[input_dir, voice_ext, image_ext],
+        #    outputs=[out_voice],
+        #)
 
         save_settings.click(
             fn=settings.save_settings,
