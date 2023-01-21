@@ -76,7 +76,6 @@ Game Talk Scenes Builder
 ```
 
 - lang に Japanese が含まれるものが日本語対応です
-- example に [JA] が含まれるものは Add Tags に [JA] が必要です
 - 声を選ぶために、IDとサンプルメッセージを指定して「MoeGoe Generate Sample」を押せば、すべてのActorsのwavが生成されます。
   - IDはコロンの一番左の数字です。
 
