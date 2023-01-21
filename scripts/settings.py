@@ -13,7 +13,6 @@ default_settings = {
     'moegoe_dr': '1.25',
     'moegoe_nr': '0.600',
     'moegoe_nb': '0.80',
-    'moegoe_ja': '',
     'ffmpeg_path': os.path.join('ffmpeg', 'bin', 'ffmpeg.exe'),
     'build_dir': project.default_build_dir(),
     }

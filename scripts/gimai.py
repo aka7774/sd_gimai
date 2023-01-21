@@ -22,7 +22,6 @@ def on_ui_tabs():
                     moegoe_dr = gr.Textbox(value=cfg['moegoe_dr'], label="Duration ratio(話速)")
                     moegoe_nr = gr.Textbox(value=cfg['moegoe_nr'], label="Noise ratio(音高)")
                     moegoe_nb = gr.Textbox(value=cfg['moegoe_nb'], label="Noise bias(抑揚)")
-                    moegoe_ja = gr.Textbox(value=cfg['moegoe_ja'], label="Add Tags", placeholder='[JA]')
                     moegoe_generate = gr.Button("Generate MoeGoe All")
                     moegoe_sample_message = gr.Textbox(label="Sample Message")
                     moegoe_sample_id = gr.Textbox(label="Sample ID")
@@ -55,12 +54,12 @@ def on_ui_tabs():
         )
         moegoe_generate.click(
             fn=moegoe.generate_all,
-            inputs=[input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja],
+            inputs=[input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb],
             outputs=[out_html]
         )
         moegoe_generate_sample.click(
             fn=moegoe.generate_sample,
-            inputs=[moegoe_sample_message, moegoe_sample_id, input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja],
+            inputs=[moegoe_sample_message, moegoe_sample_id, input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb],
             outputs=[out_html]
         )
         ffmpeg_generate.click(
@@ -83,7 +82,7 @@ def on_ui_tabs():
         title = gr.Text(elem_id=f"gimai_title", visible=False).style(container=False)
         voice_btn.click(
             fn=project.show_voice,
-            inputs=[title, input_dir, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja],
+            inputs=[title, input_dir, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb],
             outputs=[out_voice],
         )
         image_btn.click(
@@ -103,7 +102,6 @@ def on_ui_tabs():
                 moegoe_dr,
                 moegoe_nr,
                 moegoe_nb,
-                moegoe_ja,
                 ffmpeg_path,
                 build_dir,
             ],
