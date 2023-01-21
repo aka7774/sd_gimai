@@ -4,12 +4,20 @@ import pathlib
 import json
 import glob
 import subprocess
+import tqdm
 
 from scripts import project, utils
 
+def generate_sample(message, id, input_dir, voice_ext, image_ext, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
+    rs = get_sample_list(message, id, model_dir, voice_ext, image_ext)
+    return generate_all_inner(rs, input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja)
+
 def generate_all(input_dir, voice_ext, image_ext, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
     rs = project.get_list(input_dir, voice_ext, image_ext)
-    for r in rs:
+    return generate_all_inner(rs, input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja)
+
+def generate_all_inner(rs, input_dir, model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja):
+    for r in tqdm.tqdm(rs):
         # model_id:speaker_id:speaker_name
         n = r['name'].split(':')
         if len(n) < 3:
@@ -54,6 +62,31 @@ def generate(title, text, model_id, speaker_id, input_dir, model_dir, moegoe_pat
     print(f"generated {save_path}")
 
     return save_path
+
+def get_sample_list(message, id, model_dir, voice_ext, image_ext):
+    rs = []
+    info_json = os.path.join(model_dir, "info.json")
+    if not os.path.exists(info_json):
+        return rs
+    with open(info_json, "r", encoding="utf-8") as f:
+        models_info = json.load(f)
+    for i, m in models_info.items():
+        if i != id:
+            continue
+        m['config_path'] = os.path.join(model_dir, i, 'config.json')
+        hps = utils.get_hparams_from_file(m['config_path'])
+        for sid, name in enumerate(hps.speakers):
+            r = {}
+            r['scene'] = str(i).zfill(3)
+            r['line'] = 'm'+str(sid).zfill(3)
+            r['title'] = r['scene']+r['line']
+            r['name'] = f"{i}:{sid}:{name}"
+            r['text'] = message
+            r['voice'] = ''
+            r['image'] = ''
+
+            rs.append(r)
+    return rs
 
 def get_list(model_dir):
     rs = []

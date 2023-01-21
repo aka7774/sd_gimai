@@ -24,7 +24,9 @@ def on_ui_tabs():
                     moegoe_nb = gr.Textbox(value=cfg['moegoe_nb'], label="Noise bias(抑揚)")
                     moegoe_ja = gr.Textbox(value=cfg['moegoe_ja'], label="Add Tags", placeholder='[JA]')
                     moegoe_generate = gr.Button("Generate MoeGoe All")
-                    #moegoe_allplay = gr.Button("All Play")
+                    moegoe_sample_message = gr.Textbox(label="Sample Message")
+                    moegoe_sample_id = gr.Textbox(label="Sample ID")
+                    moegoe_generate_sample = gr.Button("Generate MoeGoe Sample")
                 with gr.Box():
                     ffmpeg_path = gr.Textbox(value=cfg['ffmpeg_path'], label="[Optional] Path to ffmpeg.exe (CLI)")
                     ffmpeg_generate = gr.Button("Generate mp4 aac All")
@@ -56,6 +58,11 @@ def on_ui_tabs():
             inputs=[input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja],
             outputs=[out_html]
         )
+        moegoe_generate_sample.click(
+            fn=moegoe.generate_sample,
+            inputs=[moegoe_sample_message, moegoe_sample_id, input_dir, voice_ext, image_ext, moegoe_model_dir, moegoe_path, moegoe_dr, moegoe_nr, moegoe_nb, moegoe_ja],
+            outputs=[out_html]
+        )
         ffmpeg_generate.click(
             fn=ffmpeg.generate_all,
             inputs=[input_dir, voice_ext, image_ext, ffmpeg_path],
@@ -84,11 +91,6 @@ def on_ui_tabs():
             inputs=[title],
             outputs=[out_image],
         )
-        #moegoe_allplay.click(
-        #    fn=moegoe.get_all_paths,
-        #    inputs=[input_dir, voice_ext, image_ext],
-        #    outputs=[out_voice],
-        #)
 
         save_settings.click(
             fn=settings.save_settings,
