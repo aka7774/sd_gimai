@@ -2,12 +2,13 @@ import os
 import shutil
 import pathlib
 import subprocess
+import tqdm
 
 from scripts import project, utils
 
 def generate_all(input_dir, voice_ext, image_ext, ffmpeg_path):
     rs = project.get_list(input_dir, voice_ext, image_ext)
-    for r in rs:
+    for r in tqdm.tqdm(rs):
         if r['voice']:
             generate(r['voice'], ffmpeg_path)
     return 'generated.'
