@@ -34,9 +34,9 @@ Game Talk Scenes Builder
 
 ## moe-tts(GPU版)をWSL2で使う方法
 
-MoeGoe無しでsaved_modelを使えるようにいずれ対応したい。
-pyopenjtalkをWindowsで入れるにはC++コンパイラが別途必要だしうまくいかないので保留中。
-wavファイルを一つずつ名前をつけて保存していけば一応今でも使えます。
+- wavファイルを一つずつ名前をつけて保存していけば一応今でも使えます。
+- MoeGoe無しでsaved_modelを使えるようにいずれ対応したい。
+- pyopenjtalkをWindowsで入れるにはC++コンパイラが別途必要だしうまくいかないので保留中。
 
 ```bash
 git lfs install
