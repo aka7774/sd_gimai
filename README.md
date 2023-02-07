@@ -32,6 +32,39 @@ Game Talk Scenes Builder
   - UIが使いにくく調教しづらい
   - 中国語訛りになりがち
 
+## moe-tts(GPU版)をWSL2で使う方法
+
+MoeGoe無しでsaved_modelを使えるようにいずれ対応したい。
+pyopenjtalkをWindowsで入れるにはC++コンパイラが別途必要だしうまくいかないので保留中。
+wavファイルを一つずつ名前をつけて保存していけば一応今でも使えます。
+
+```bash
+git lfs install
+git clone https://huggingface.co/spaces/skytnt/moe-tts
+cd moe-tts/
+python -m venv venv
+. ./venv/bin/activate
+pip install --upgrade pip
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117  torchaudio==0.13.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117
+sudo apt install python3.10-dev
+sudo apt install cmake
+sudo apt-get install libsndfile1-dev
+pip install cmake
+pip install pyopenjtalk
+pip install -r requirements.txt
+```
+
+pyopenjtalk のインストール時、手元では from cmake import cmake でcmakeが無いと騒がれたので、
+venv/bin/cmake内に次の行を足すことで誤魔化した。
+```python
+sys.path.append('/home/user/moe-tts/venv/lib/python3.10/site-packages')
+```
+
+実行時にはコマンドラインオプションでGPUを指定する。
+```bash
+python app.py --device cuda:0
+```
+
 # 制作の流れ
 
 ## 音声の保存
